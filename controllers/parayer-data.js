@@ -7,6 +7,6 @@ function getRamadanData(ramadanStartDate=null){
 }
 
 export default {
-    getPrayerData,
+    getPrayerTimes,
     getRamadanData,
 }
