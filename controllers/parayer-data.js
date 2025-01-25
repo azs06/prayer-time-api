@@ -1,3 +1,5 @@
+import { districts } from "prayer-time-bd"
+
 function getPrayerTimes(date=new Date()){
 
 }
