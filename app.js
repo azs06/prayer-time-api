@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import { getPrayerTimes, getRamadanData } from "./controllers/parayer-data";
+import { getDistricts } from "./controllers/district-data.js";
+import { getPermanentPrayerTimes } from "./controllers/prayer-data.js";
 
 const app = express();
 
@@ -10,14 +11,13 @@ app.get("/", () => {
   return "Server Running";
 });
 
-app.get("/get-prayer-times/:date", (req, res) => {
-    try {
-        return getPrayerTimes()
-    } catch(e){
-        res.send(400);
-    }
+app.get("/districts", (req, res) => {
+  return res.json(getDistricts());
+});
+app.get("/permanent-prayer-times", (req, res) => {
+    return res.json(getPermanentPrayerTimes());
 });
 
-app.get("/get-ramadan-times/:date", (req, res) => {
-    return getRamadanData();
+app.listen(3000, () => {
+  console.log("Server Running", 3000);
 });
