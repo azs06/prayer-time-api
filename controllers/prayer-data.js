@@ -1,9 +1,14 @@
-import { calendar } from "prayer-time-bd"
+import { calendar, getPrayerTimes } from "prayer-time-bd";
 
-function getPermanentPrayerTimes(){
-    return calendar
+function getPermanentPrayerTimes() {
+  return calendar;
 }
 
-export {
-    getPermanentPrayerTimes
+function getPrayerTimesByDateAndDistrict(
+  date = new Date(),
+  district = undefined
+) {
+  return getPrayerTimes(date, district);
 }
+
+export { getPermanentPrayerTimes, getPrayerTimesByDateAndDistrict };
