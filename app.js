@@ -5,6 +5,13 @@ import { getPermanentPrayerTimes, getPrayerTimesByDateAndDistrict } from "./cont
 
 const app = express();
 
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 app.use(cors());
 
 app.get("/", () => {
@@ -21,7 +28,7 @@ app.get("/permanent-prayer-times", (req, res) => {
 app.get("/prayer-times", (req, res) => {
     const date = new Date(req.query.date || new Date());
     const district = req.query.district || undefined;
-    return res.json(getPrayerTimesByDateAndDistrict(date, district));
+    return res.json(getPrayerTimesByDateAndDistrict(undefined, district));
 })
 
 app.listen(3000, () => {

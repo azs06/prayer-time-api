@@ -8,6 +8,8 @@ function getPrayerTimesByDateAndDistrict(
   date = new Date(),
   district = undefined
 ) {
+  console.log("date", date);
+  console.log("district", district);
   return getPrayerTimes(date, district);
 }
 
