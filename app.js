@@ -3,6 +3,10 @@ import cors from "cors";
 import { getDistricts } from "./controllers/district-data.js";
 import { getPermanentPrayerTimes, getPrayerTimesByDateAndDistrict } from "./controllers/prayer-data.js";
 import { formatDate } from "./utils/date.js";
+import 'dotenv/config'
+
+const PORT = process.env.PORT;
+
 const app = express();
 
 app.use(cors());
@@ -26,6 +30,6 @@ app.get("/prayer-times", (req, res) => {
     return res.json(response);
 })
 
-app.listen(3000, () => {
-  console.log("Server Running", 3000);
+app.listen(PORT, () => {
+  console.log("Server Running", PORT);
 });
