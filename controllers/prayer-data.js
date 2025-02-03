@@ -1,12 +1,12 @@
 import { calendar, getPrayerTimes } from "prayer-time-bd";
-const {
+import {
   startOfMonth,
   endOfMonth,
   format,
   parse,
   differenceInDays,
   closestTo,
-} = require("date-fns");
+} from "date-fns";
 const { schedule } = calendar;
 
 const getMonthDetails = (month, year = new Date().getFullYear()) => {
