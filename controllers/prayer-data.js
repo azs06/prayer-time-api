@@ -6,8 +6,9 @@ import {
   parse,
   differenceInDays,
   closestTo,
+  isBefore,
 } from "date-fns";
-const { schedule } = calendar;
+const schedule = calendar;
 
 const getMonthDetails = (month, year = new Date().getFullYear()) => {
   const firstDate = startOfMonth(new Date(year, month));
@@ -22,31 +23,37 @@ const generateMonthSpecificSchedules = (monthIndex) => {
   const monthSchedule =
     schedule.months.find((m) => m.name === monthName)?.schedule || [];
 
-  // Extracting available schedule dates
-  const availableDates = monthSchedule.map((s) =>
-    parse(s.date, "dd", firstDate)
-  );
+  // Convert schedule dates to actual Date objects
+  const scheduleDates = monthSchedule.map((s) => ({
+    ...s,
+    parsedDate: parse(s.date, "dd", firstDate),
+  }));
 
-  const findNearestSchedule = (dayDate) => {
-    if (availableDates.length === 0) return null;
+  // Function to find the nearest **previous** schedule
+  const findNearestSchedule = (currentDate) => {
+    let nearestSchedule = null;
 
-    const closestDate = closestTo(dayDate, availableDates);
-    const formattedDate = format(dayDate, "dd"); // Convert to match schedule format
-
-    return (
-      monthSchedule.find((s) => s.date === formattedDate) || {
-        date: formattedDate,
-        message: "No available schedule",
+    for (const sch of scheduleDates) {
+      if (
+        isBefore(sch.parsedDate, currentDate) ||
+        sch.parsedDate.getTime() === currentDate.getTime()
+      ) {
+        nearestSchedule = sch;
+      } else {
+        break; // Stop once we pass the last previous match
       }
-    );
+    }
+
+    return nearestSchedule
+      ? { ...nearestSchedule, date: format(currentDate, "dd") }
+      : { date: format(currentDate, "dd"), message: "No schedule available" };
   };
 
   const schedules = [];
   let currentDate = firstDate;
 
   while (currentDate <= lastDate) {
-    const scheduleForDay = findNearestSchedule(currentDate);
-    schedules.push({ ...scheduleForDay, date: format(currentDate, "dd") });
+    schedules.push(findNearestSchedule(currentDate));
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
