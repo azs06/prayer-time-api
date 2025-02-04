@@ -11,7 +11,7 @@ const app = express();
 
 app.use(cors());
 
-app.get("/", () => {
+app.get("/", (req, res) => {
   return res.json("Server Running")
 });
 
