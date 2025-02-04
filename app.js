@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 
 app.get("/", () => {
-  return "Server Running";
+  return res.json("Server Running")
 });
 
 app.get("/districts", (req, res) => {
